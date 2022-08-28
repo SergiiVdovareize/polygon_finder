@@ -1,0 +1,18 @@
+{
+    "name": "map-renderer",
+    "license": "MIT",
+    "scripts": {
+      "lint:fix": "eslint --cache *.js --fix",
+      "lint": "eslint --cache *.js",
+      "chk": "node scripts/check.js map=1D8q8i0GWFfNp-r21sfo_M3Y1AtROtv0 position=50.087333,36.180407"
+    },
+    "devDependencies": {
+      "eslint-config-standard": "^17.0.0",
+      "eslint-plugin-import": "^2.25.2",
+      "eslint-plugin-n": "^15.0.0",
+      "eslint-plugin-promise": "^6.0.0",
+      "eslint": "^8.0.1",
+      "phantomjs": "^2.1.7"
+    }
+  }
+  
