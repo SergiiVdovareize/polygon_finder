@@ -1,7 +1,7 @@
+import mapParser from './mapParser.js'
 
 const parseParams = () => {
     const args = process.argv.slice(2)
-    console.log(args)
     const paramsArray = args.filter(arg => arg.indexOf('=') !== -1);
   
     const parsedParams = {};
@@ -15,4 +15,6 @@ const parseParams = () => {
 
 const parsedParams = parseParams();
 
-console.log('** check', parsedParams)
+console.log('params:', parsedParams)
+// console.log(parser)
+mapParser.parse(parsedParams.map)
