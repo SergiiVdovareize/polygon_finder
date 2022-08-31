@@ -8,11 +8,7 @@ const getPolygonName = data => data[5][0]?.[1][0] || null
 
 const getPolygonDescription = data => data[5][1]?.[1][0] || null
 
-const getPolygonPoints = (data) => {
-  return data[3][0][0][0][0].map(point => {
-    return { lat: point[0][0], lng: point[0][1] } 
-  })
-}
+const getPolygonPoints = data => data[3][0]?.[0]?.[0]?.[0] || []
 
 const getPolygon = (data) => {
   const polygon = {
@@ -30,31 +26,38 @@ const composePolygons = (layer) => {
 }
 
 const getMapData = async (mapId) => {
-  const mapDataReg = /var _pageData\s*=\s*['|"](\[.*\])['|"];/igm
   const url = `https://www.google.com/maps/d/u/0/viewer?mid=${mapId}`
-  console.log('map url', url)
 
   try {
     const response = await fetch(url)
     console.log('fetch statusCode:', response.status);
     const body = await response.text()
-    const match = mapDataReg.exec(body)
+    return body
+  } catch (error) {
+    console.error(`Couldn't fetch map. Check that map id is correct.`, error)
+    return null
+  }
+}
+
+const parseMapData = (data) => {
+  const mapDataReg = /var _pageData\s*=\s*['|"](\[.*\])['|"];/igm
+
+  try {
+    const match = mapDataReg.exec(data)
     const pageData = match[1].replaceAll('\\"', '"')
     const mapData = JSON.parse(pageData)
     const layer = getLayer(mapData)
     const polygons = composePolygons(layer)
-    console.log(polygons[0])
-
+    return polygons
   } catch (error) {
-    // TODO: updat catcher
-    console.error(`Couldn't fetch map. Check that map id is correct.`, error)
+    console.error(`Couldn't parse map data.`, error)
+    return []
   }
-
 }
 
-
-const parse = (mapId) => {
-    getMapData(mapId)
+const parse = async (mapId) => {
+    const mapData = await getMapData(mapId)
+    return mapData ? parseMapData(mapData) : []
 }
 
 export default { parse }

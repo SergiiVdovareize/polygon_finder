@@ -16,5 +16,5 @@ const parseParams = () => {
 const parsedParams = parseParams();
 
 console.log('params:', parsedParams)
-// console.log(parser)
-mapParser.parse(parsedParams.map)
+const polygons = await mapParser.parse(parsedParams.map)
+console.log(polygons)
