@@ -1,14 +1,12 @@
 import fetch from 'node-fetch';
 
-const getLayer = (data) => {
-  return data[1][6][0][12][0][13][0]
-}
+const getLayer = data => data[1][6]?.[0][12]?.[0][13]?.[0] || null
 
 const getPolygonName = data => data[5][0]?.[1][0] || null
 
 const getPolygonDescription = data => data[5][1]?.[1][0] || null
 
-const getPolygonPoints = data => data[3][0]?.[0]?.[0]?.[0] || []
+const getPolygonPoints = data => data[3][0]?.[0]?.[0]?.[0].map(pointsArray => pointsArray[0]) || []
 
 const getPolygon = (data) => {
   const polygon = {
@@ -47,8 +45,7 @@ const parseMapData = (data) => {
     const pageData = match[1].replaceAll('\\"', '"')
     const mapData = JSON.parse(pageData)
     const layer = getLayer(mapData)
-    const polygons = composePolygons(layer)
-    return polygons
+    return layer ? composePolygons(layer) : []
   } catch (error) {
     console.error(`Couldn't parse map data.`, error)
     return []
