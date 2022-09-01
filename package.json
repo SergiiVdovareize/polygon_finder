@@ -3,9 +3,9 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-      "lint:fix": "eslint --cache *.js --fix",
-      "lint": "eslint --cache *.js",
-      "chk": "node scripts/check.js map=1D8q8i0GWFfNp-r21sfo_M3Y1AtROtv0 position=50.087333,36.180407"
+      "lint:fix": "eslint --cache **/*.js --fix",
+      "lint": "eslint --cache **/*.js",
+      "chk": "node scripts/pointChecker.js"
     },
     "devDependencies": {
       "eslint-config-standard": "^17.0.0",
@@ -13,7 +13,8 @@
       "eslint-plugin-n": "^15.0.0",
       "eslint-plugin-promise": "^6.0.0",
       "eslint": "^8.0.1",
-      "node-fetch": "^3.2.10"
+      "node-fetch": "^3.2.10",
+      "point-in-polygon-hao": "^1.1.0"
     }
   }
   
