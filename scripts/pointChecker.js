@@ -1,40 +1,6 @@
 import inside from 'point-in-polygon-hao';
 import mapParser from './mapParser.js';
 
-const parseParams = () => {
-  const args = process.argv.slice(2);
-  const paramsArray = args.filter(arg => arg.indexOf('=') !== -1);
-
-  const parsedParams = {};
-  paramsArray.forEach(paramString => {
-    const keyValue = paramString.split('=');
-    parsedParams[keyValue[0]] = keyValue[1];
-  });
-
-  return parsedParams;
-};
-
-const validateParams = (params) => {
-  if (!params.map) {
-    console.log('Missed "map" parameter. It should be a map id value');
-    return false;
-  }
-
-  if (!params.position) {
-    console.log('Missed "position" parameter. It should contain lat and lng coordinates');
-    return false;
-  }
-
-  if (params.position.split(',').length !== 2) {
-    console.log('Wrong "position" value. It should look something like this: 45.306286,36.508117');
-    return false;
-  }
-
-  return true;
-};
-
-const parsePointCoordinates = point => point.split(',').map(coord => parseFloat(coord));
-
 const addRepeatedPoints = (polygons) => {
   polygons
     .filter(polygon => polygon.points.length > 2)
@@ -52,15 +18,33 @@ const checkPoint = (point, polygons) => {
   return polygons.filter(polygon => inside(point, [polygon.points]));
 };
 
-const check = async () => {
-  const parsedParams = parseParams();
-  if (!validateParams(parsedParams)) {
-    process.exit(1);
+const validateMapId = (mapId) => {
+  if (!mapId || typeof (mapId) !== 'string' || mapId.length < 10) {
+    console.error('mapId is not valid');
+    return false;
   }
-  const polygons = await mapParser.parse(parsedParams.map);
+
+  return true;
+};
+
+const validatePoint = (point) => {
+  if (!point || point.length !== 2 || isNaN(point[0]) || isNaN(point[0])) {
+    console.error('point is not valid');
+    return false;
+  }
+
+  return true;
+};
+
+const check = async (mapId, point) => {
+  if (!validateMapId(mapId) || !validatePoint(point)) {
+    return [];
+  }
+
+  console.log(mapId, point);
+  const polygons = await mapParser.parse(mapId);
   addRepeatedPoints(polygons);
 
-  const point = parsePointCoordinates(parsedParams.position);
   const relatedToPolygons = checkPoint(point, polygons);
   return relatedToPolygons;
 };
