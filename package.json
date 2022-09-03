@@ -1,11 +1,11 @@
 {
     "name": "map-renderer",
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "type": "module",
     "main": "index.js",
     "scripts": {
-      "chk": "node run.js",
+      "find": "node run.js",
       "lint:fix": "eslint --cache **/*.js --fix",
       "lint": "eslint --cache **/*.js"
     },

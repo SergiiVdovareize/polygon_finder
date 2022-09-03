@@ -1,4 +1,4 @@
-import pointChecker from './scripts/pointChecker.js';
+import finder from './scripts/finder.js';
 
 const parseParams = () => {
   const args = process.argv.slice(2);
@@ -34,6 +34,13 @@ const validateParams = (params) => {
 
 const parsePointCoordinates = point => point.split(',').map(coord => parseFloat(coord));
 
+const printResult = (foundPolygons) => {
+  console.log(`found ${foundPolygons.length} polygons`);
+  if (foundPolygons.length > 0) {
+    console.log(foundPolygons.map(polygon => polygon.name));
+  }
+};
+
 const run = async () => {
   const parsedParams = parseParams();
   if (!validateParams(parsedParams)) {
@@ -41,8 +48,8 @@ const run = async () => {
   }
   const point = parsePointCoordinates(parsedParams.position);
 
-  const foundPolygons = await pointChecker.check(parsedParams.map, point);
-  console.log(foundPolygons.map(polygon => polygon.name));
+  const foundPolygons = await finder.find(parsedParams.map, point);
+  printResult(foundPolygons);
 };
 
 run();

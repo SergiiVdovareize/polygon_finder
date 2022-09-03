@@ -36,12 +36,11 @@ const validatePoint = (point) => {
   return true;
 };
 
-const check = async (mapId, point) => {
+const find = async (mapId, point) => {
   if (!validateMapId(mapId) || !validatePoint(point)) {
     return [];
   }
 
-  console.log(mapId, point);
   const polygons = await mapParser.parse(mapId);
   addRepeatedPoints(polygons);
 
@@ -49,4 +48,4 @@ const check = async (mapId, point) => {
   return relatedToPolygons;
 };
 
-export default { check };
+export default { find };

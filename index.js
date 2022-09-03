@@ -1,4 +1,4 @@
-import pointChecker from './scripts/pointChecker.js';
+import finder from './scripts/finder';
 
-const find = (mapId, point) => pointChecker.check(mapId, point);
-export { find }
+const find = (mapId, point) => finder.find(mapId, point);
+export { find };
