@@ -1,4 +1,4 @@
-import finder from './scripts/finder.js';
+import { find } from './index.js';
 
 const parseParams = () => {
   const args = process.argv.slice(2);
@@ -48,7 +48,7 @@ const run = async () => {
   }
   const point = parsePointCoordinates(parsedParams.position);
 
-  const foundPolygons = await finder.find(parsedParams.map, point);
+  const foundPolygons = await find(parsedParams.map, point);
   printResult(foundPolygons);
 };
 
